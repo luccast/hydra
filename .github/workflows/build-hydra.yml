@@ -3,7 +3,7 @@ name: Build Hydra
 # main publishes releases; edge publishes prereleases, which only machines set to "updateChannel": "edge" install
 on:
   push:
-    branches: [main, edge]
+    branches: [main, edge, luccast/omarchy]
     paths-ignore:
       - '**.md'
   pull_request:
@@ -19,11 +19,26 @@ jobs:
   version:
     runs-on: ubuntu-24.04
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ steps.omarchy.outputs.version || steps.version.outputs.version }}
 
     steps:
+      # luccast/omarchy versions as the upstream release it is built on, plus a fourth number for each build:
+      # 0.3.36.1, 0.3.36.2, ... Bump OMARCHY_BASE when upstream is merged in.
+      - name: Determine version (luccast/omarchy)
+        id: omarchy
+        if: github.ref_name == 'luccast/omarchy'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OMARCHY_BASE: "0.3.36"
+        run: |
+          latest=$(gh release list --limit 20 --json tagName --jq "[.[].tagName | select(startswith(\"v$OMARCHY_BASE.\"))][0] // empty")
+          if [ -n "$latest" ]; then n=$(( ${latest#"v$OMARCHY_BASE."} + 1 )); else n=1; fi
+          echo "version=$OMARCHY_BASE.$n" >> "$GITHUB_OUTPUT"
+
       - name: Determine version
         id: version
+        if: github.ref_name != 'luccast/omarchy'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}

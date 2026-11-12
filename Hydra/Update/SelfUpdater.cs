@@ -12,7 +12,9 @@ namespace Hydra.Update;
 
 internal sealed class SelfUpdater(IHydraProfile profile, ILogger<SelfUpdater> log) : SimpleHostedService(log, TimeSpan.FromMinutes(30))
 {
-    private const string Repo = "pacanimal/hydra";
+    // luccast/omarchy: this build carries Hyprland (Wayland) support that upstream's releases lack, so it updates
+    // from the fork's releases (versioned <upstream base>.<n>), never from pacanimal/hydra's
+    private const string Repo = "luccast/hydra";
     private readonly Toggle _warned = new();
     private static readonly HttpClient Http = CreateHttp();
 

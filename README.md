@@ -2,6 +2,8 @@
 
 **A modern, cross-platform software KVM** — share one keyboard and mouse across Mac, Windows, and Linux by moving the cursor to the edge of the screen. A spiritual successor to Synergy and Barrier: end-to-end encrypted, works across networks and VPNs through an optional relay, and types correctly across keyboard layouts.
 
+> **This is the `luccast/omarchy` build** of Hydra: upstream plus Hyprland (Wayland) support ([#14](https://github.com/PacAnimal/hydra/pull/14)) and an evdev hotplug fix ([#15](https://github.com/PacAnimal/hydra/pull/15)), for OmaHydra. It updates from [this fork's releases](https://github.com/luccast/hydra/releases), versioned as the upstream release plus a build number (`0.3.36.1`). Once upstream ships these changes, use upstream again.
+
 [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/PacAnimal/hydra)](https://github.com/PacAnimal/hydra/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/PacAnimal/hydra/total)](https://github.com/PacAnimal/hydra/releases)
